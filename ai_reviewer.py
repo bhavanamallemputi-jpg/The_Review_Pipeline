@@ -33,10 +33,20 @@ def review_code(source_code):
     Assign severity:
     Low, Medium, High, Critical.
 
-    Return a JSON array with:
-    line, type, severity, description.
+    Return a JSON object in this format:
+    {{
+        "bugs": [
+            {{
+                "line": 1,
+                "type": "syntax",
+                "severity": "High",
+                "description": "Describe the issue"
+            }}
+        ]
+    }}
 
-    If no bugs are found, return an empty array.
+    If no bugs are found, return:
+    {{"bugs": []}}
 
     Return only valid JSON.
 
@@ -45,7 +55,7 @@ def review_code(source_code):
     """
 
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         messages=[
             {
                 "role": "user",
@@ -59,8 +69,5 @@ def review_code(source_code):
     result = response.choices[0].message.content
 
     data = json.loads(result)
-
-    if isinstance(data, list):
-        return data
 
     return data.get("bugs", [])

@@ -35,15 +35,17 @@ def refactor_code(source_code):
     5. Do not change the original functionality.
 
     Return a JSON object containing:
-    refactored_code: The complete improved code.
-    explanation: A short explanation of improvements.
+    - refactored_code: The complete improved code.
+    - explanation: A short explanation of improvements.
+
+    Return only valid JSON.
 
     Original source code:
     {source_code}
     """
 
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         messages=[
             {
                 "role": "user",
